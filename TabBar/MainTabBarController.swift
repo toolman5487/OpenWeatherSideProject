@@ -21,11 +21,14 @@ class MainTabBarController: UITabBarController {
                                             image: UIImage(systemName: "cloud.sun"),
                                             selectedImage: UIImage(systemName: "cloud.sun.fill"))
         let weatherNav = UINavigationController(rootViewController: weatherVC)
-        
+        let homeVC = ViewController()
+        homeVC.tabBarItem = UITabBarItem(title: "首頁",
+                                            image: UIImage(systemName: "house"),
+                                            selectedImage: UIImage(systemName: "house.fill"))
+        let homeNav = UINavigationController(rootViewController: homeVC)
        
-        
         viewControllers = [
-            weatherNav
+            weatherNav, homeNav
         ]
     }
 }
