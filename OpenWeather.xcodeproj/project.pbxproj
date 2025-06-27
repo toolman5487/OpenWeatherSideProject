@@ -6,8 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */; };
+		15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */; };
+		15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15FDA0B12E0EE31D00307357 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		15FDA0912E0EE07200307357 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +54,8 @@
 		15FDA0882E0EE07200307357 = {
 			isa = PBXGroup;
 			children = (
+				15FDA0AC2E0EE2AF00307357 /* Views */,
+				15FDA0A92E0EE1E500307357 /* TabBar */,
 				15FDA0932E0EE07200307357 /* OpenWeather */,
 				15FDA0922E0EE07200307357 /* Products */,
 			);
@@ -56,6 +67,30 @@
 				15FDA0912E0EE07200307357 /* OpenWeather.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		15FDA0A92E0EE1E500307357 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		15FDA0AC2E0EE2AF00307357 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				15FDA0AD2E0EE2B400307357 /* WeatherViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		15FDA0AD2E0EE2B400307357 /* WeatherViews */ = {
+			isa = PBXGroup;
+			children = (
+				15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */,
+			);
+			path = WeatherViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +113,7 @@
 			);
 			name = OpenWeather;
 			packageProductDependencies = (
+				15FDA0B12E0EE31D00307357 /* SnapKit */,
 			);
 			productName = OpenWeather;
 			productReference = 15FDA0912E0EE07200307357 /* OpenWeather.app */;
@@ -107,6 +143,9 @@
 			);
 			mainGroup = 15FDA0882E0EE07200307357;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15FDA0922E0EE07200307357 /* Products */;
 			projectDirPath = "";
@@ -132,6 +171,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */,
+				15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +191,6 @@
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -178,7 +218,6 @@
 				INFOPLIST_FILE = OpenWeather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -337,6 +376,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		15FDA0B12E0EE31D00307357 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 15FDA0892E0EE07200307357 /* Project object */;
 }
