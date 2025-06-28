@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import SnapKit
+import CoreLocation
+import Combine
 
 class WeatherHomeViewController: UIViewController {
     
@@ -19,8 +21,25 @@ class WeatherHomeViewController: UIViewController {
         return label
     }()
     
+    private var cancellables = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        LocationManager.shared.requestLocation()
+        LocationManager.shared.$location
+            .compactMap { $0 }
+            .first()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] location in
+                let lat = location.coordinate.latitude
+                let lon = location.coordinate.longitude
+                self?.logolabel.text = "(\(lat), \(lon))"
+            }
+            .store(in: &cancellables)
+        
+        self.title = "天氣"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         view.addSubview(logolabel)
         logolabel.snp.makeConstraints { make in
             make.center.equalToSuperview()

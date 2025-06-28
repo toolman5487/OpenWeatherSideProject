@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		158E1F1B2E0FDDB500D81F36 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158E1F1A2E0FDDB500D81F36 /* LocationManager.swift */; };
 		15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */; };
 		15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */; };
 		15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15FDA0B12E0EE31D00307357 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		158E1F1A2E0FDDB500D81F36 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		15FDA0912E0EE07200307357 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeViewController.swift; sourceTree = "<group>"; };
@@ -51,9 +53,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		158E1F192E0FDDA400D81F36 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				158E1F1A2E0FDDB500D81F36 /* LocationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		15FDA0882E0EE07200307357 = {
 			isa = PBXGroup;
 			children = (
+				158E1F192E0FDDA400D81F36 /* Managers */,
 				15FDA0AC2E0EE2AF00307357 /* Views */,
 				15FDA0A92E0EE1E500307357 /* TabBar */,
 				15FDA0932E0EE07200307357 /* OpenWeather */,
@@ -171,6 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				158E1F1B2E0FDDB500D81F36 /* LocationManager.swift in Sources */,
 				15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */,
 				15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */,
 			);
