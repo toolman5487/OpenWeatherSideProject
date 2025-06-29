@@ -17,12 +17,10 @@
 		15E0E1E72E11060500C57C10 /* loadingAir.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DF2E11060500C57C10 /* loadingAir.json */; };
 		15E0E1E82E11060500C57C10 /* loadingAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E02E11060500C57C10 /* loadingAnimation.json */; };
 		15E0E1E92E11060500C57C10 /* loadingAnimation_blue.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */; };
-		15E0E1EA2E11060500C57C10 /* ArticleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */; };
 		15E0E1EB2E11060500C57C10 /* loadingPoint.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E22E11060500C57C10 /* loadingPoint.json */; };
 		15E0E1EC2E11060500C57C10 /* SendAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E52E11060500C57C10 /* SendAnimation.json */; };
 		15E0E1ED2E11060500C57C10 /* RefreshAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E42E11060500C57C10 /* RefreshAnimation.json */; };
 		15E0E1EE2E11060500C57C10 /* PostAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E32E11060500C57C10 /* PostAnimation.json */; };
-		15E0E1EF2E11060500C57C10 /* Animation_popcorn.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */; };
 		15E0E1F22E110A2D00C57C10 /* LottieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1F12E110A2D00C57C10 /* LottieManager.swift */; };
 		15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */; };
 		15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */; };
@@ -36,8 +34,6 @@
 		15E0E1D22E1030FB00C57C10 /* BaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURL.swift; sourceTree = "<group>"; };
 		15E0E1D62E1031EC00C57C10 /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
 		15E0E1DC2E11060500C57C10 /* AIAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AIAnimation.json; sourceTree = "<group>"; };
-		15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Animation_popcorn.json; sourceTree = "<group>"; };
-		15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ArticleAnimation.json; sourceTree = "<group>"; };
 		15E0E1DF2E11060500C57C10 /* loadingAir.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAir.json; sourceTree = "<group>"; };
 		15E0E1E02E11060500C57C10 /* loadingAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation.json; sourceTree = "<group>"; };
 		15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation_blue.json; sourceTree = "<group>"; };
@@ -138,8 +134,6 @@
 			children = (
 				15E0E1F02E110A0E00C57C10 /* Managers */,
 				15E0E1DC2E11060500C57C10 /* AIAnimation.json */,
-				15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */,
-				15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */,
 				15E0E1DF2E11060500C57C10 /* loadingAir.json */,
 				15E0E1E02E11060500C57C10 /* loadingAnimation.json */,
 				15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */,
@@ -281,12 +275,10 @@
 				15E0E1E72E11060500C57C10 /* loadingAir.json in Resources */,
 				15E0E1E82E11060500C57C10 /* loadingAnimation.json in Resources */,
 				15E0E1E92E11060500C57C10 /* loadingAnimation_blue.json in Resources */,
-				15E0E1EA2E11060500C57C10 /* ArticleAnimation.json in Resources */,
 				15E0E1EB2E11060500C57C10 /* loadingPoint.json in Resources */,
 				15E0E1EC2E11060500C57C10 /* SendAnimation.json in Resources */,
 				15E0E1ED2E11060500C57C10 /* RefreshAnimation.json in Resources */,
 				15E0E1EE2E11060500C57C10 /* PostAnimation.json in Resources */,
-				15E0E1EF2E11060500C57C10 /* Animation_popcorn.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +313,8 @@
 				DEVELOPMENT_TEAM = G5A93Q7SG9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpenWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App 持續需要您的位置以更新天氣資訊";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App 需要您的位置以提供在地天氣";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -330,7 +324,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = co.willyhsu.OpenWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.willyhsu.OpenWeather-Demo2025";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -348,6 +342,8 @@
 				DEVELOPMENT_TEAM = G5A93Q7SG9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpenWeather/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App 持續需要您的位置以更新天氣資訊";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App 需要您的位置以提供在地天氣";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -357,7 +353,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = co.willyhsu.OpenWeather;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.willyhsu.OpenWeather-Demo2025";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

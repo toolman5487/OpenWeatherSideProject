@@ -15,7 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.systemBackground.cgColor,
+            UIColor(red: 1.0, green: 220/255, blue: 0, alpha: 1).cgColor,
             UIColor(red: 1.0, green: 182/255, blue: 0, alpha: 1).cgColor,
+            UIColor(red: 1.0, green: 145/255, blue: 0, alpha: 1).cgColor,
             UIColor(red: 1.0, green: 72/255, blue: 0, alpha: 1).cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 1)

@@ -14,8 +14,10 @@ import Lottie
 
 class WeatherHomeViewController: UIViewController {
     
+    private var loadingView: LottieAnimationView?
     private var currentWeatherVM: CurrentWeatherViewModel!
     private var cancellables = Set<AnyCancellable>()
+    private var hasLocation: Bool = false
     
     private let weatherImageView: UIImageView = {
         let image = UIImageView()
@@ -38,15 +40,24 @@ class WeatherHomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNavg()
+        setNavgationBar()
         setupUI()
         bindingVM()
     }
     
-    private func setNavg() {
-        self.title = "天氣"
+    private func setNavgationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+
+        let systemName = hasLocation ? "location.fill" : "location"
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: systemName),
+            style: .plain,
+            target: self,
+            action: #selector(locationButtonTapped)
+        )
+        button.tintColor = .label
+        navigationItem.rightBarButtonItem = button
     }
     
     private func setupUI() {
@@ -65,23 +76,24 @@ class WeatherHomeViewController: UIViewController {
     }
     
     private func bindingVM() {
+        showNavigationLoading(true)
         LocationManager.shared.requestLocation()
         LocationManager.shared.$location
             .compactMap { $0 }
-            .first()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] location in
                 guard let self = self else { return }
-                _ = location.coordinate.latitude
-                _ = location.coordinate.longitude
+                self.hasLocation = true
+                self.setNavgationBar()
                 self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
-                    if let name = placemarks?.first?.locality {
-                        DispatchQueue.main.async {
-                            self.navigationItem.title = name
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.navigationItem.title = "未知地區"
+                    DispatchQueue.main.async {
+                        self.showNavigationLoading(false)
+                        if let name = placemarks?.first?.locality {
+                            self.title = name
+                        } else {
+                            self.hasLocation = false
+                            self.setNavgationBar()
+                            self.title = "定位中..."
                         }
                     }
                 }
@@ -89,5 +101,25 @@ class WeatherHomeViewController: UIViewController {
             .store(in: &cancellables)
     }
     
+    private func showNavigationLoading(_ show: Bool) {
+        if show {
+            self.title = nil
+            let animationView = LottieManager.makeLoadingView(named: "loadingPoint")
+            let container = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
+            animationView.frame = container.bounds
+            container.addSubview(animationView)
+            animationView.play()
+            self.navigationItem.titleView = container
+        } else {
+            self.navigationItem.titleView = nil
+        }
+    }
+    
+    @objc private func locationButtonTapped() {
+        showNavigationLoading(true)
+        hasLocation = false
+        setNavgationBar()
+        LocationManager.shared.requestLocation()
+    }
     
 }
