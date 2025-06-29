@@ -11,63 +11,71 @@ import SnapKit
 import CoreLocation
 import Combine
 import Lottie
+import SkeletonView
 
 class WeatherHomeViewController: UIViewController {
-   
+    
     private let geocoder = CLGeocoder()
     private var loadingView: LottieAnimationView?
-    private var currentWeatherVM: CurrentWeatherViewModel!
     private var cancellables = Set<AnyCancellable>()
     private var hasLocation: Bool = false
-
-    private let weatherImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.tintColor = .label
-        iv.clipsToBounds = true
-        return iv
-    }()
-
+    private var currentWeatherVM = CurrentWeatherViewModel()
+    
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 56, weight: .bold)
+        label.font = .systemFont(ofSize: 72, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center
         label.text = "--°"
         label.isHidden = true
         return label
     }()
-
-    private let highLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        label.text = "H: --°"
-        label.isHidden = true
-        return label
+    
+    private let weatherImageView: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.tintColor = .label
+        image.clipsToBounds = true
+        return image
     }()
-
-    private let lowLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        label.text = "L: --°"
-        label.isHidden = true
-        return label
-    }()
-
+    
     private let weatherDescLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .label
         label.textAlignment = .center
         label.text = "--"
         label.isHidden = true
         return label
     }()
-
+    
+    private lazy var weatherStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [weatherImageView, weatherDescLabel])
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .center
+        return stack
+    }()
+    
+    private let highLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.text = "H: --°"
+        label.isHidden = true
+        return label
+    }()
+    
+    private let lowLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.text = "L: --°"
+        label.isHidden = true
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +87,7 @@ class WeatherHomeViewController: UIViewController {
     private func setNavgationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-
+        
         let systemName = hasLocation ? "location.fill" : "location"
         let button = UIBarButtonItem(
             image: UIImage(systemName: systemName),
@@ -92,36 +100,29 @@ class WeatherHomeViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.addSubview(weatherImageView)
         view.addSubview(tempLabel)
+        view.addSubview(weatherStackView)
         view.addSubview(highLabel)
         view.addSubview(lowLabel)
-        view.addSubview(weatherDescLabel)
         
-        weatherImageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
-            make.centerX.equalToSuperview()
-            make.width.height.equalTo(120)
-        }
-
         tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(weatherImageView.snp.bottom).offset(24)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.centerX.equalToSuperview()
         }
-
+        
+        weatherStackView.snp.makeConstraints { make in
+            make.top.equalTo(tempLabel.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
+        }
+        
         highLabel.snp.makeConstraints { make in
             make.top.equalTo(tempLabel.snp.bottom).offset(12)
-            make.right.equalTo(view.snp.centerX).offset(-8)
-        }
-
-        lowLabel.snp.makeConstraints { make in
-            make.top.equalTo(tempLabel.snp.bottom).offset(12)
-            make.left.equalTo(view.snp.centerX).offset(8)
+            make.trailing.equalTo(view.snp.centerX).offset(-8)
         }
         
-        weatherDescLabel.snp.makeConstraints { make in
-            make.top.equalTo(highLabel.snp.bottom).offset(18)
-            make.centerX.equalToSuperview()
+        lowLabel.snp.makeConstraints { make in
+            make.top.equalTo(tempLabel.snp.bottom).offset(12)
+            make.leading.equalTo(view.snp.centerX).offset(8)
         }
     }
     
@@ -147,6 +148,26 @@ class WeatherHomeViewController: UIViewController {
                         }
                     }
                 }
+                self.currentWeatherVM.fetchCurrentWeather(
+                    lat: location.coordinate.latitude,
+                    lon: location.coordinate.longitude
+                )
+            }
+            .store(in: &cancellables)
+        
+        currentWeatherVM.$weather
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] weather in
+                guard let self = self, let weather = weather else { return }
+                self.tempLabel.text = String(format: "%.0f°", weather.main.temp)
+                self.tempLabel.isHidden = false
+                self.highLabel.text = "H: \(Int(weather.main.temp_max))°"
+                self.highLabel.isHidden = false
+                self.lowLabel.text = "L: \(Int(weather.main.temp_min))°"
+                self.lowLabel.isHidden = false
+                self.weatherDescLabel.text = weather.weather.first?.description ?? "--"
+                self.weatherDescLabel.isHidden = false
+                self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
             }
             .store(in: &cancellables)
     }

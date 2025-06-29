@@ -22,6 +22,7 @@
 		15E0E1ED2E11060500C57C10 /* RefreshAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E42E11060500C57C10 /* RefreshAnimation.json */; };
 		15E0E1EE2E11060500C57C10 /* PostAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E32E11060500C57C10 /* PostAnimation.json */; };
 		15E0E1F22E110A2D00C57C10 /* LottieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1F12E110A2D00C57C10 /* LottieManager.swift */; };
+		15E0E1F52E1130A200C57C10 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 15E0E1F42E1130A200C57C10 /* SkeletonView */; };
 		15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */; };
 		15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */; };
 		15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15FDA0B12E0EE31D00307357 /* SnapKit */; };
@@ -74,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */,
+				15E0E1F52E1130A200C57C10 /* SkeletonView in Frameworks */,
 				15E0E1DA2E1104BD00C57C10 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,6 +225,7 @@
 			packageProductDependencies = (
 				15FDA0B12E0EE31D00307357 /* SnapKit */,
 				15E0E1D92E1104BD00C57C10 /* Lottie */,
+				15E0E1F42E1130A200C57C10 /* SkeletonView */,
 			);
 			productName = OpenWeather;
 			productReference = 15FDA0912E0EE07200307357 /* OpenWeather.app */;
@@ -255,6 +258,7 @@
 			packageReferences = (
 				15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				15E0E1F32E1130A200C57C10 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15FDA0922E0EE07200307357 /* Products */;
@@ -514,6 +518,14 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		15E0E1F32E1130A200C57C10 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 		15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -529,6 +541,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		15E0E1F42E1130A200C57C10 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15E0E1F32E1130A200C57C10 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 		15FDA0B12E0EE31D00307357 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
