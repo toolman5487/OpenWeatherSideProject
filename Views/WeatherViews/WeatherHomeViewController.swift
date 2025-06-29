@@ -41,8 +41,8 @@ class WeatherHomeViewController: UIViewController {
     
     private let weatherDescLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .label
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .tertiaryLabel
         label.textAlignment = .center
         label.text = "--"
         label.isHidden = true
@@ -59,7 +59,7 @@ class WeatherHomeViewController: UIViewController {
     
     private let highLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: 24, weight: .regular)
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.text = "H: --°"
@@ -69,7 +69,7 @@ class WeatherHomeViewController: UIViewController {
     
     private let lowLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: 24, weight: .regular)
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.text = "L: --°"
@@ -114,15 +114,18 @@ class WeatherHomeViewController: UIViewController {
             make.top.equalTo(tempLabel.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
         }
+        weatherImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(56)
+        }
         
         highLabel.snp.makeConstraints { make in
-            make.top.equalTo(tempLabel.snp.bottom).offset(12)
-            make.trailing.equalTo(view.snp.centerX).offset(-8)
+            make.top.equalTo(weatherStackView.snp.bottom).offset(12)
+            make.trailing.equalTo(view.snp.centerX).offset(-32)
         }
         
         lowLabel.snp.makeConstraints { make in
-            make.top.equalTo(tempLabel.snp.bottom).offset(12)
-            make.leading.equalTo(view.snp.centerX).offset(8)
+            make.top.equalTo(weatherStackView.snp.bottom).offset(12)
+            make.leading.equalTo(view.snp.centerX).offset(32)
         }
     }
     
@@ -161,10 +164,9 @@ class WeatherHomeViewController: UIViewController {
                 guard let self = self, let weather = weather else { return }
                 self.tempLabel.text = String(format: "%.0f°", weather.main.temp)
                 self.tempLabel.isHidden = false
-                self.highLabel.text = "H: \(Int(weather.main.temp_max))°"
-                self.highLabel.isHidden = false
-                self.lowLabel.text = "L: \(Int(weather.main.temp_min))°"
-                self.lowLabel.isHidden = false
+                self.setHighLabel(temp: Int(weather.main.temp_max))
+                
+                self.setLowLabel(temp: Int(weather.main.temp_min))
                 self.weatherDescLabel.text = weather.weather.first?.description ?? "--"
                 self.weatherDescLabel.isHidden = false
                 self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
@@ -193,4 +195,33 @@ class WeatherHomeViewController: UIViewController {
         LocationManager.shared.requestLocation()
     }
     
+    private func setHighLabel(temp: Int) {
+        let highText = NSMutableAttributedString(
+            string: "最高溫度\n",
+            attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: UIColor.secondaryLabel]
+        )
+        highText.append(NSAttributedString(
+            string: "\(temp)°",
+            attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .bold), .foregroundColor: UIColor.secondaryLabel]
+        ))
+        highLabel.attributedText = highText
+        highLabel.numberOfLines = 2
+        highLabel.textAlignment = .center
+        highLabel.isHidden = false
+    }
+    
+    private func setLowLabel(temp: Int) {
+        let lowText = NSMutableAttributedString(
+            string: "最低溫度\n",
+            attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: UIColor.secondaryLabel]
+        )
+        lowText.append(NSAttributedString(
+            string: "\(temp)°",
+            attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .bold), .foregroundColor: UIColor.secondaryLabel]
+        ))
+        lowLabel.attributedText = lowText
+        lowLabel.numberOfLines = 2
+        lowLabel.textAlignment = .center
+        lowLabel.isHidden = false
+    }
 }
