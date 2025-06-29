@@ -13,30 +13,61 @@ import Combine
 import Lottie
 
 class WeatherHomeViewController: UIViewController {
-    
+   
+    private let geocoder = CLGeocoder()
     private var loadingView: LottieAnimationView?
     private var currentWeatherVM: CurrentWeatherViewModel!
     private var cancellables = Set<AnyCancellable>()
     private var hasLocation: Bool = false
-    
+
     private let weatherImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(systemName: "questionmark")
-        image.contentMode = .scaleAspectFit
-        image.tintColor = .label
-        image.clipsToBounds = true
-        return image
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.tintColor = .label
+        iv.clipsToBounds = true
+        return iv
     }()
-    private let weatherLabel: UILabel = {
+
+    private let tempLabel: UILabel = {
         let label = UILabel()
-        label.text = "--"
+        label.font = .systemFont(ofSize: 56, weight: .bold)
         label.textColor = .label
-        label.font = .systemFont(ofSize: 24, weight: .medium)
         label.textAlignment = .center
+        label.text = "--°"
+        label.isHidden = true
         return label
     }()
-    
-    private let geocoder = CLGeocoder()
+
+    private let highLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.text = "H: --°"
+        label.isHidden = true
+        return label
+    }()
+
+    private let lowLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.text = "L: --°"
+        label.isHidden = true
+        return label
+    }()
+
+    private let weatherDescLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24, weight: .medium)
+        label.textColor = .label
+        label.textAlignment = .center
+        label.text = "--"
+        label.isHidden = true
+        return label
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,16 +93,35 @@ class WeatherHomeViewController: UIViewController {
     
     private func setupUI() {
         view.addSubview(weatherImageView)
-        view.addSubview(weatherLabel)
+        view.addSubview(tempLabel)
+        view.addSubview(highLabel)
+        view.addSubview(lowLabel)
+        view.addSubview(weatherDescLabel)
         
         weatherImageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
-            make.width.height.equalTo(80)
-        }
-        weatherLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(weatherImageView.snp.bottom).offset(16)
+            make.width.height.equalTo(120)
+        }
+
+        tempLabel.snp.makeConstraints { make in
+            make.top.equalTo(weatherImageView.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+        }
+
+        highLabel.snp.makeConstraints { make in
+            make.top.equalTo(tempLabel.snp.bottom).offset(12)
+            make.right.equalTo(view.snp.centerX).offset(-8)
+        }
+
+        lowLabel.snp.makeConstraints { make in
+            make.top.equalTo(tempLabel.snp.bottom).offset(12)
+            make.left.equalTo(view.snp.centerX).offset(8)
+        }
+        
+        weatherDescLabel.snp.makeConstraints { make in
+            make.top.equalTo(highLabel.snp.bottom).offset(18)
+            make.centerX.equalToSuperview()
         }
     }
     
