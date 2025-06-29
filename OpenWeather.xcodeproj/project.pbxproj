@@ -12,6 +12,18 @@
 		15E0E1D02E102F7900C57C10 /* CurrentWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1CF2E102F7900C57C10 /* CurrentWeatherService.swift */; };
 		15E0E1D32E1030FB00C57C10 /* BaseURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1D22E1030FB00C57C10 /* BaseURL.swift */; };
 		15E0E1D72E1031EC00C57C10 /* CurrentWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1D62E1031EC00C57C10 /* CurrentWeatherViewModel.swift */; };
+		15E0E1DA2E1104BD00C57C10 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 15E0E1D92E1104BD00C57C10 /* Lottie */; };
+		15E0E1E62E11060500C57C10 /* AIAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DC2E11060500C57C10 /* AIAnimation.json */; };
+		15E0E1E72E11060500C57C10 /* loadingAir.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DF2E11060500C57C10 /* loadingAir.json */; };
+		15E0E1E82E11060500C57C10 /* loadingAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E02E11060500C57C10 /* loadingAnimation.json */; };
+		15E0E1E92E11060500C57C10 /* loadingAnimation_blue.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */; };
+		15E0E1EA2E11060500C57C10 /* ArticleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */; };
+		15E0E1EB2E11060500C57C10 /* loadingPoint.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E22E11060500C57C10 /* loadingPoint.json */; };
+		15E0E1EC2E11060500C57C10 /* SendAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E52E11060500C57C10 /* SendAnimation.json */; };
+		15E0E1ED2E11060500C57C10 /* RefreshAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E42E11060500C57C10 /* RefreshAnimation.json */; };
+		15E0E1EE2E11060500C57C10 /* PostAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1E32E11060500C57C10 /* PostAnimation.json */; };
+		15E0E1EF2E11060500C57C10 /* Animation_popcorn.json in Resources */ = {isa = PBXBuildFile; fileRef = 15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */; };
+		15E0E1F22E110A2D00C57C10 /* LottieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E0E1F12E110A2D00C57C10 /* LottieManager.swift */; };
 		15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */; };
 		15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */; };
 		15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15FDA0B12E0EE31D00307357 /* SnapKit */; };
@@ -23,6 +35,17 @@
 		15E0E1CF2E102F7900C57C10 /* CurrentWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherService.swift; sourceTree = "<group>"; };
 		15E0E1D22E1030FB00C57C10 /* BaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURL.swift; sourceTree = "<group>"; };
 		15E0E1D62E1031EC00C57C10 /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
+		15E0E1DC2E11060500C57C10 /* AIAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AIAnimation.json; sourceTree = "<group>"; };
+		15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Animation_popcorn.json; sourceTree = "<group>"; };
+		15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ArticleAnimation.json; sourceTree = "<group>"; };
+		15E0E1DF2E11060500C57C10 /* loadingAir.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAir.json; sourceTree = "<group>"; };
+		15E0E1E02E11060500C57C10 /* loadingAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation.json; sourceTree = "<group>"; };
+		15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingAnimation_blue.json; sourceTree = "<group>"; };
+		15E0E1E22E11060500C57C10 /* loadingPoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loadingPoint.json; sourceTree = "<group>"; };
+		15E0E1E32E11060500C57C10 /* PostAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PostAnimation.json; sourceTree = "<group>"; };
+		15E0E1E42E11060500C57C10 /* RefreshAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RefreshAnimation.json; sourceTree = "<group>"; };
+		15E0E1E52E11060500C57C10 /* SendAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SendAnimation.json; sourceTree = "<group>"; };
+		15E0E1F12E110A2D00C57C10 /* LottieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieManager.swift; sourceTree = "<group>"; };
 		15FDA0912E0EE07200307357 /* OpenWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15FDA0AA2E0EE1FF00307357 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */,
+				15E0E1DA2E1104BD00C57C10 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,9 +133,36 @@
 			path = CurrentWeatherVM;
 			sourceTree = "<group>";
 		};
+		15E0E1DB2E11051B00C57C10 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				15E0E1F02E110A0E00C57C10 /* Managers */,
+				15E0E1DC2E11060500C57C10 /* AIAnimation.json */,
+				15E0E1DD2E11060500C57C10 /* Animation_popcorn.json */,
+				15E0E1DE2E11060500C57C10 /* ArticleAnimation.json */,
+				15E0E1DF2E11060500C57C10 /* loadingAir.json */,
+				15E0E1E02E11060500C57C10 /* loadingAnimation.json */,
+				15E0E1E12E11060500C57C10 /* loadingAnimation_blue.json */,
+				15E0E1E22E11060500C57C10 /* loadingPoint.json */,
+				15E0E1E32E11060500C57C10 /* PostAnimation.json */,
+				15E0E1E42E11060500C57C10 /* RefreshAnimation.json */,
+				15E0E1E52E11060500C57C10 /* SendAnimation.json */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
+		15E0E1F02E110A0E00C57C10 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				15E0E1F12E110A2D00C57C10 /* LottieManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		15FDA0882E0EE07200307357 = {
 			isa = PBXGroup;
 			children = (
+				15E0E1DB2E11051B00C57C10 /* Animations */,
 				15E0E1D42E1031CE00C57C10 /* ViewModels */,
 				15E0E1D12E1030C300C57C10 /* Configs */,
 				15E0E1CE2E102F5200C57C10 /* Services */,
@@ -177,6 +228,7 @@
 			name = OpenWeather;
 			packageProductDependencies = (
 				15FDA0B12E0EE31D00307357 /* SnapKit */,
+				15E0E1D92E1104BD00C57C10 /* Lottie */,
 			);
 			productName = OpenWeather;
 			productReference = 15FDA0912E0EE07200307357 /* OpenWeather.app */;
@@ -208,6 +260,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15FDA0922E0EE07200307357 /* Products */;
@@ -224,6 +277,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15E0E1E62E11060500C57C10 /* AIAnimation.json in Resources */,
+				15E0E1E72E11060500C57C10 /* loadingAir.json in Resources */,
+				15E0E1E82E11060500C57C10 /* loadingAnimation.json in Resources */,
+				15E0E1E92E11060500C57C10 /* loadingAnimation_blue.json in Resources */,
+				15E0E1EA2E11060500C57C10 /* ArticleAnimation.json in Resources */,
+				15E0E1EB2E11060500C57C10 /* loadingPoint.json in Resources */,
+				15E0E1EC2E11060500C57C10 /* SendAnimation.json in Resources */,
+				15E0E1ED2E11060500C57C10 /* RefreshAnimation.json in Resources */,
+				15E0E1EE2E11060500C57C10 /* PostAnimation.json in Resources */,
+				15E0E1EF2E11060500C57C10 /* Animation_popcorn.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +300,7 @@
 				158E1F1B2E0FDDB500D81F36 /* LocationManager.swift in Sources */,
 				15E0E1D02E102F7900C57C10 /* CurrentWeatherService.swift in Sources */,
 				15E0E1CD2E102E5F00C57C10 /* CurrentWeatherModel.swift in Sources */,
+				15E0E1F22E110A2D00C57C10 /* LottieManager.swift in Sources */,
 				15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */,
 				15E0E1D72E1031EC00C57C10 /* CurrentWeatherViewModel.swift in Sources */,
 				15FDA0AB2E0EE1FF00307357 /* MainTabBarController.swift in Sources */,
@@ -446,6 +510,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 		15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -457,6 +529,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		15E0E1D92E1104BD00C57C10 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		15FDA0B12E0EE31D00307357 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 15FDA0B02E0EE31D00307357 /* XCRemoteSwiftPackageReference "SnapKit" */;

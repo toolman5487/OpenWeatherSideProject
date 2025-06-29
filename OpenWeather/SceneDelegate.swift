@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeGradientImage(height: CGFloat) -> UIImage {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
+            UIColor.systemBackground.cgColor,
             UIColor(red: 1.0, green: 182/255, blue: 0, alpha: 1).cgColor,
             UIColor(red: 1.0, green: 72/255, blue: 0, alpha: 1).cgColor
         ]
@@ -32,6 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appearance.backgroundImage = makeGradientImage(height: 160)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.shadowColor = .clear
         return appearance
     }
     
