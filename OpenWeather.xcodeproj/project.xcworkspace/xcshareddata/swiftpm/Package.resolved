@@ -1,5 +1,5 @@
 {
-  "originHash" : "e434de8503b0f6c5040d76d17624b90584800d522ac3e633231fae0e40c510a4",
+  "originHash" : "2afd5f7c5b9e19c2a9814a1278db6154916d263c1b8cfa1f9a825080f761696a",
   "pins" : [
     {
       "identity" : "lottie-ios",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "a004050748dc197c56256a14dca49a035d74726c",
         "version" : "4.5.2"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage",
+      "state" : {
+        "revision" : "b62cb63bf4ed1f04c961a56c9c6c9d5ab8524ec6",
+        "version" : "5.21.1"
       }
     },
     {

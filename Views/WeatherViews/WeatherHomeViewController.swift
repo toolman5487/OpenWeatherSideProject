@@ -57,24 +57,18 @@ class WeatherHomeViewController: UIViewController {
         return stack
     }()
     
-    private let highLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        label.text = "H: --°"
-        label.isHidden = true
-        return label
-    }()
-    
-    private let lowLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.textAlignment = .center
-        label.text = "L: --°"
-        label.isHidden = true
-        return label
+    private lazy var infoCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 12
+        layout.itemSize = CGSize(width: 72, height: 72)
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .clear
+        collection.showsHorizontalScrollIndicator = false
+        collection.dataSource = self
+        collection.delegate = self
+        collection.register(WeatherInfoCell.self, forCellWithReuseIdentifier: "WeatherInfoCell")
+        return collection
     }()
     
     override func viewDidLoad() {
@@ -102,8 +96,6 @@ class WeatherHomeViewController: UIViewController {
     private func setupUI() {
         view.addSubview(tempLabel)
         view.addSubview(weatherStackView)
-        view.addSubview(highLabel)
-        view.addSubview(lowLabel)
         
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
@@ -118,14 +110,11 @@ class WeatherHomeViewController: UIViewController {
             make.width.height.equalTo(56)
         }
         
-        highLabel.snp.makeConstraints { make in
-            make.top.equalTo(weatherStackView.snp.bottom).offset(12)
-            make.trailing.equalTo(view.snp.centerX).offset(-32)
-        }
-        
-        lowLabel.snp.makeConstraints { make in
-            make.top.equalTo(weatherStackView.snp.bottom).offset(12)
-            make.leading.equalTo(view.snp.centerX).offset(32)
+        view.addSubview(infoCollectionView)
+        infoCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(weatherStackView.snp.bottom).offset(16)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(72)
         }
     }
     
@@ -164,9 +153,6 @@ class WeatherHomeViewController: UIViewController {
                 guard let self = self, let weather = weather else { return }
                 self.tempLabel.text = String(format: "%.0f°", weather.main.temp)
                 self.tempLabel.isHidden = false
-                self.setHighLabel(temp: Int(weather.main.temp_max))
-                
-                self.setLowLabel(temp: Int(weather.main.temp_min))
                 self.weatherDescLabel.text = weather.weather.first?.description ?? "--"
                 self.weatherDescLabel.isHidden = false
                 self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
@@ -194,34 +180,19 @@ class WeatherHomeViewController: UIViewController {
         setNavgationBar()
         LocationManager.shared.requestLocation()
     }
+}
+
+extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private func setHighLabel(temp: Int) {
-        let highText = NSMutableAttributedString(
-            string: "最高溫度\n",
-            attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: UIColor.secondaryLabel]
-        )
-        highText.append(NSAttributedString(
-            string: "\(temp)°",
-            attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .bold), .foregroundColor: UIColor.secondaryLabel]
-        ))
-        highLabel.attributedText = highText
-        highLabel.numberOfLines = 2
-        highLabel.textAlignment = .center
-        highLabel.isHidden = false
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
     }
     
-    private func setLowLabel(temp: Int) {
-        let lowText = NSMutableAttributedString(
-            string: "最低溫度\n",
-            attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: UIColor.secondaryLabel]
-        )
-        lowText.append(NSAttributedString(
-            string: "\(temp)°",
-            attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .bold), .foregroundColor: UIColor.secondaryLabel]
-        ))
-        lowLabel.attributedText = lowText
-        lowLabel.numberOfLines = 2
-        lowLabel.textAlignment = .center
-        lowLabel.isHidden = false
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherInfoCell", for: indexPath) as? WeatherInfoCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(title: "Info \(indexPath.item + 1)", value: "--")
+        return cell
     }
 }
