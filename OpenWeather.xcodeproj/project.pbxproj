@@ -131,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				15E0E1D62E1031EC00C57C10 /* CurrentWeatherViewModel.swift */,
-				15E0E1F92E12354400C57C10 /* WeatherInfoCell.swift */,
 			);
 			path = CurrentWeatherVM;
 			sourceTree = "<group>";
@@ -204,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */,
+				15E0E1F92E12354400C57C10 /* WeatherInfoCell.swift */,
 			);
 			path = WeatherViews;
 			sourceTree = "<group>";

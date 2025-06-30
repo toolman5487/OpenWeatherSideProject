@@ -7,20 +7,29 @@
 
 import UIKit
 import SnapKit
+import SkeletonView
+
 
 class WeatherInfoCell: UICollectionViewCell {
+    
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .secondarySystemGroupedBackground
-        titleLabel.font = .systemFont(ofSize: 12)
+        contentView.isSkeletonable = true
+        titleLabel.isSkeletonable = true
+        valueLabel.isSkeletonable = true
+        titleLabel.font = .systemFont(ofSize: 16)
         titleLabel.textColor = .secondaryLabel
         titleLabel.textAlignment = .center
-        valueLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        valueLabel.font = .systemFont(ofSize: 24, weight: .bold)
         valueLabel.textColor = .label
         valueLabel.textAlignment = .center
+        valueLabel.adjustsFontSizeToFitWidth = true
+        valueLabel.minimumScaleFactor = 0.5
+        valueLabel.numberOfLines = 1
         
         let stack = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
         stack.axis = .vertical

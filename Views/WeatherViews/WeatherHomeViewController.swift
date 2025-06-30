@@ -20,6 +20,7 @@ class WeatherHomeViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var hasLocation: Bool = false
     private var currentWeatherVM = CurrentWeatherViewModel()
+    private var weatherInfoItems: [(title: String, value: String)] = []
     
     private let tempLabel: UILabel = {
         let label = UILabel()
@@ -27,7 +28,7 @@ class WeatherHomeViewController: UIViewController {
         label.textColor = .label
         label.textAlignment = .center
         label.text = "--°"
-        label.isHidden = true
+        label.isHidden = false
         return label
     }()
     
@@ -76,6 +77,10 @@ class WeatherHomeViewController: UIViewController {
         setNavgationBar()
         setupUI()
         bindingVM()
+        tempLabel.showAnimatedGradientSkeleton()
+        weatherStackView.showAnimatedGradientSkeleton()
+        infoCollectionView.isSkeletonable = true
+        infoCollectionView.showAnimatedGradientSkeleton()
     }
     
     private func setNavgationBar() {
@@ -96,6 +101,9 @@ class WeatherHomeViewController: UIViewController {
     private func setupUI() {
         view.addSubview(tempLabel)
         view.addSubview(weatherStackView)
+        
+        tempLabel.isSkeletonable = true
+        weatherStackView.isSkeletonable = true
         
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
@@ -156,6 +164,21 @@ class WeatherHomeViewController: UIViewController {
                 self.weatherDescLabel.text = weather.weather.first?.description ?? "--"
                 self.weatherDescLabel.isHidden = false
                 self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
+                
+                self.tempLabel.hideSkeleton()
+                self.weatherStackView.hideSkeleton()
+                
+                self.weatherInfoItems = [
+                    (title: "最低", value: String(format: "%.0f°", weather.main.temp_min)),
+                    (title: "最高", value: String(format: "%.0f°", weather.main.temp_max)),
+                    (title: "體感", value: String(format: "%.0f°", weather.main.feels_like)),
+                    (title: "濕度", value: "\(weather.main.humidity)%"),
+                    (title: "氣壓", value: "\(weather.main.pressure) hPa"),
+                    (title: "海平面", value: weather.main.sea_level != nil ? "\(weather.main.sea_level!) hPa" : "--"),
+                    (title: "地面", value: weather.main.grnd_level != nil ? "\(weather.main.grnd_level!) hPa" : "--")
+                ]
+                self.infoCollectionView.reloadData()
+                self.infoCollectionView.hideSkeleton()
             }
             .store(in: &cancellables)
     }
@@ -182,17 +205,22 @@ class WeatherHomeViewController: UIViewController {
     }
 }
 
-extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension WeatherHomeViewController: SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return "WeatherInfoCell"
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return weatherInfoItems.isEmpty ? 7 : weatherInfoItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherInfoCell", for: indexPath) as? WeatherInfoCell else {
             return UICollectionViewCell()
         }
-        cell.configure(title: "Info \(indexPath.item + 1)", value: "--")
+        let item = weatherInfoItems[indexPath.item]
+        cell.configure(title: item.title, value: item.value)
         return cell
     }
 }
