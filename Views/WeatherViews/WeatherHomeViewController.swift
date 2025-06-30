@@ -27,8 +27,10 @@ class WeatherHomeViewController: UIViewController {
         label.font = .systemFont(ofSize: 72, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "--°"
         label.isHidden = false
+        label.isSkeletonable = true
+        label.layer.cornerRadius = 36
+        label.layer.masksToBounds = true
         return label
     }()
     
@@ -37,6 +39,9 @@ class WeatherHomeViewController: UIViewController {
         image.contentMode = .scaleAspectFit
         image.tintColor = .label
         image.clipsToBounds = true
+        image.isSkeletonable = true
+        image.layer.cornerRadius = 28
+        image.layer.masksToBounds = true
         return image
     }()
     
@@ -45,8 +50,10 @@ class WeatherHomeViewController: UIViewController {
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .tertiaryLabel
         label.textAlignment = .center
-        label.text = "--"
         label.isHidden = true
+        label.isSkeletonable = true
+        label.layer.cornerRadius = 8
+        label.layer.masksToBounds = true
         return label
     }()
     
@@ -55,6 +62,9 @@ class WeatherHomeViewController: UIViewController {
         stack.axis = .vertical
         stack.spacing = 8
         stack.alignment = .center
+        stack.isSkeletonable = true
+        stack.layer.cornerRadius = 16
+        stack.layer.masksToBounds = true
         return stack
     }()
     
@@ -69,6 +79,9 @@ class WeatherHomeViewController: UIViewController {
         collection.dataSource = self
         collection.delegate = self
         collection.register(WeatherInfoCell.self, forCellWithReuseIdentifier: "WeatherInfoCell")
+        collection.isSkeletonable = true
+        collection.layer.cornerRadius = 16
+        collection.layer.masksToBounds = true
         return collection
     }()
     
