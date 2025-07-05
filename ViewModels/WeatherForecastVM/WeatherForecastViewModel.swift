@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class WeatherForcastViewModel: ObservableObject {
+class WeatherForecastViewModel: ObservableObject {
     
     @Published var forecast: WeatherForecastResponse?
     @Published var isLoading = false

@@ -20,6 +20,7 @@ class WeatherHomeViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var hasLocation: Bool = false
     private var currentWeatherVM = CurrentWeatherViewModel()
+    private var weatherForecastVM = WeatherForecastViewModel()
     private var weatherInfoItems: [(title: String, value: String)] = []
     
     private let tempLabel: UILabel = {
@@ -84,6 +85,7 @@ class WeatherHomeViewController: UIViewController {
         let tableView = WeatherTableView()
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(WeatherForecastTableViewCell.self, forCellReuseIdentifier: "WeatherForecastTableViewCell")
         tableView.isHidden = true
         tableView.layer.cornerRadius = 12
         tableView.layer.masksToBounds = true
@@ -195,6 +197,15 @@ class WeatherHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
+        weatherForecastVM.$forecast
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] forecast in
+                guard let self = self, let forecast = forecast else { return }
+                print("VM: \(forecast)")
+                self.forecastTableView.reloadData()
+                print("Reload OK")
+            }
+            .store(in: &cancellables)
     }
     
     private func showNavigationLoading(_ show: Bool) {
@@ -238,17 +249,49 @@ extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
-extension WeatherHomeViewController:UITableViewDataSource,UITableViewDelegate{
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        <#code#>
+extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        return weatherForecastVM.forecast?.list.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "WeatherForecastTableViewCell",
+            for: indexPath
+        ) as? WeatherForecastTableViewCell,
+              let item = weatherForecastVM.forecast?.list[indexPath.row] else {
+            return UITableViewCell()
+        }
+        let timeString = item.dt_txt
+        let tempString = String(format: "%.0f°", item.main.temp)
+        let desc = item.weather.first?.description ?? "--"
+        let iconName = item.weather.first?.icon ?? ""
+        let icon = UIImage(systemName: "cloud")
         
+        cell.configure(time: timeString, icon: icon, temp: tempString, desc: desc)
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView()
+        let label = UILabel()
+        label.text = "未來預報"
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .label
+        header.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 36
     }
 }
