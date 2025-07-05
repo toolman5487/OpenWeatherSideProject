@@ -24,7 +24,7 @@ class WeatherHomeViewController: UIViewController {
     
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 72, weight: .bold)
+        label.font = .bold(size: 72)
         label.textColor = .label
         label.textAlignment = .center
         label.isHidden = false
@@ -80,6 +80,16 @@ class WeatherHomeViewController: UIViewController {
         return collection
     }()
     
+    private lazy var forecastTableView: WeatherTableView = {
+        let tableView = WeatherTableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.isHidden = true
+        tableView.layer.cornerRadius = 12
+        tableView.layer.masksToBounds = true
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavgationBar()
@@ -105,6 +115,8 @@ class WeatherHomeViewController: UIViewController {
     private func setupUI() {
         view.addSubview(tempLabel)
         view.addSubview(weatherStackView)
+        view.addSubview(infoCollectionView)
+        view.addSubview(forecastTableView)
         
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
@@ -119,11 +131,15 @@ class WeatherHomeViewController: UIViewController {
             make.width.height.equalTo(56)
         }
         
-        view.addSubview(infoCollectionView)
         infoCollectionView.snp.makeConstraints { make in
             make.top.equalTo(weatherStackView.snp.bottom).offset(16)
-            make.left.right.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(72)
+        }
+        
+        forecastTableView.snp.makeConstraints { make in
+            make.top.equalTo(infoCollectionView.snp.bottom).offset(8)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -178,6 +194,7 @@ class WeatherHomeViewController: UIViewController {
                 self.infoCollectionView.reloadData()
             }
             .store(in: &cancellables)
+        
     }
     
     private func showNavigationLoading(_ show: Bool) {
@@ -221,3 +238,17 @@ extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
+extension WeatherHomeViewController:UITableViewDataSource,UITableViewDelegate{
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+    }
+}

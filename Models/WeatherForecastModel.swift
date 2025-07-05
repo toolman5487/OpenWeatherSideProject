@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 struct WeatherForecastResponse: Codable {
     let cod: String
     let message: Int

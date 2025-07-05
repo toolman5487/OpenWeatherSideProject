@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1573DBB22E19506C00E54B68 /* WeatherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1573DBB12E19506C00E54B68 /* WeatherTableView.swift */; };
 		158E1F1B2E0FDDB500D81F36 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158E1F1A2E0FDDB500D81F36 /* LocationManager.swift */; };
 		15D5E7D52E1912DA0056479F /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D5E7D42E1912DA0056479F /* FontExtension.swift */; };
 		15D5E7D82E1924820056479F /* WeatherForcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D5E7D72E1924820056479F /* WeatherForcastViewModel.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1573DBB12E19506C00E54B68 /* WeatherTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableView.swift; sourceTree = "<group>"; };
 		158E1F1A2E0FDDB500D81F36 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		15D5E7D42E1912DA0056479F /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		15D5E7D72E1924820056479F /* WeatherForcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForcastViewModel.swift; sourceTree = "<group>"; };
@@ -127,11 +129,12 @@
 			path = WeatherForcastVM;
 			sourceTree = "<group>";
 		};
-		15D5E7DB2E1932E30056479F /* ForcastTableView */ = {
+		15D5E7DB2E1932E30056479F /* WeatherTableView */ = {
 			isa = PBXGroup;
 			children = (
+				1573DBB12E19506C00E54B68 /* WeatherTableView.swift */,
 			);
-			path = ForcastTableView;
+			path = WeatherTableView;
 			sourceTree = "<group>";
 		};
 		15E0E1C92E102C8F00C57C10 /* Models */ = {
@@ -238,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				15FDA0AD2E0EE2B400307357 /* WeatherViews */,
+				15D5E7DB2E1932E30056479F /* WeatherTableView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -245,7 +249,6 @@
 		15FDA0AD2E0EE2B400307357 /* WeatherViews */ = {
 			isa = PBXGroup;
 			children = (
-				15D5E7DB2E1932E30056479F /* ForcastTableView */,
 				15FDA0AE2E0EE2C100307357 /* WeatherHomeViewController.swift */,
 				15E0E1F92E12354400C57C10 /* WeatherInfoCell.swift */,
 			);
@@ -348,6 +351,7 @@
 				15E0E1D02E102F7900C57C10 /* CurrentWeatherService.swift in Sources */,
 				15D5E7D52E1912DA0056479F /* FontExtension.swift in Sources */,
 				15E0E1CD2E102E5F00C57C10 /* CurrentWeatherModel.swift in Sources */,
+				1573DBB22E19506C00E54B68 /* WeatherTableView.swift in Sources */,
 				15E0E1F22E110A2D00C57C10 /* LottieManager.swift in Sources */,
 				15FDA0AF2E0EE2C100307357 /* WeatherHomeViewController.swift in Sources */,
 				15E0E1FA2E12354400C57C10 /* WeatherInfoCell.swift in Sources */,
