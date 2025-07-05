@@ -11,7 +11,7 @@ import SnapKit
 import CoreLocation
 import Combine
 import Lottie
-import SkeletonView
+
 
 class WeatherHomeViewController: UIViewController {
     
@@ -28,7 +28,6 @@ class WeatherHomeViewController: UIViewController {
         label.textColor = .label
         label.textAlignment = .center
         label.isHidden = false
-        label.isSkeletonable = true
         label.layer.cornerRadius = 36
         label.layer.masksToBounds = true
         return label
@@ -39,7 +38,6 @@ class WeatherHomeViewController: UIViewController {
         image.contentMode = .scaleAspectFit
         image.tintColor = .label
         image.clipsToBounds = true
-        image.isSkeletonable = true
         image.layer.cornerRadius = 28
         image.layer.masksToBounds = true
         return image
@@ -51,7 +49,6 @@ class WeatherHomeViewController: UIViewController {
         label.textColor = .tertiaryLabel
         label.textAlignment = .center
         label.isHidden = true
-        label.isSkeletonable = true
         label.layer.cornerRadius = 8
         label.layer.masksToBounds = true
         return label
@@ -62,7 +59,6 @@ class WeatherHomeViewController: UIViewController {
         stack.axis = .vertical
         stack.spacing = 8
         stack.alignment = .center
-        stack.isSkeletonable = true
         stack.layer.cornerRadius = 16
         stack.layer.masksToBounds = true
         return stack
@@ -79,7 +75,6 @@ class WeatherHomeViewController: UIViewController {
         collection.dataSource = self
         collection.delegate = self
         collection.register(WeatherInfoCell.self, forCellWithReuseIdentifier: "WeatherInfoCell")
-        collection.isSkeletonable = true
         collection.layer.cornerRadius = 16
         collection.layer.masksToBounds = true
         return collection
@@ -90,10 +85,6 @@ class WeatherHomeViewController: UIViewController {
         setNavgationBar()
         setupUI()
         bindingVM()
-        tempLabel.showAnimatedGradientSkeleton()
-        weatherStackView.showAnimatedGradientSkeleton()
-        infoCollectionView.isSkeletonable = true
-        infoCollectionView.showAnimatedGradientSkeleton()
     }
     
     private func setNavgationBar() {
@@ -114,9 +105,6 @@ class WeatherHomeViewController: UIViewController {
     private func setupUI() {
         view.addSubview(tempLabel)
         view.addSubview(weatherStackView)
-        
-        tempLabel.isSkeletonable = true
-        weatherStackView.isSkeletonable = true
         
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
@@ -178,9 +166,6 @@ class WeatherHomeViewController: UIViewController {
                 self.weatherDescLabel.isHidden = false
                 self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
                 
-                self.tempLabel.hideSkeleton()
-                self.weatherStackView.hideSkeleton()
-                
                 self.weatherInfoItems = [
                     (title: "最低", value: String(format: "%.0f°", weather.main.temp_min)),
                     (title: "最高", value: String(format: "%.0f°", weather.main.temp_max)),
@@ -191,7 +176,6 @@ class WeatherHomeViewController: UIViewController {
                     (title: "地面", value: weather.main.grnd_level != nil ? "\(weather.main.grnd_level!) hPa" : "--")
                 ]
                 self.infoCollectionView.reloadData()
-                self.infoCollectionView.hideSkeleton()
             }
             .store(in: &cancellables)
     }
@@ -218,22 +202,22 @@ class WeatherHomeViewController: UIViewController {
     }
 }
 
-extension WeatherHomeViewController: SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-        return "WeatherInfoCell"
-    }
-    
+extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return weatherInfoItems.isEmpty ? 7 : weatherInfoItems.count
+        return 7
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherInfoCell", for: indexPath) as? WeatherInfoCell else {
             return UICollectionViewCell()
         }
-        let item = weatherInfoItems[indexPath.item]
-        cell.configure(title: item.title, value: item.value)
+        if weatherInfoItems.count > indexPath.item {
+            let item = weatherInfoItems[indexPath.item]
+            cell.configure(title: item.title, value: item.value)
+        } else {
+            cell.configure(title: "--", value: "--")
+        }
         return cell
     }
 }
+
