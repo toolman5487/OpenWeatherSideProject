@@ -86,7 +86,7 @@ class WeatherHomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(WeatherForecastTableViewCell.self, forCellReuseIdentifier: "WeatherForecastTableViewCell")
-        tableView.isHidden = true
+        tableView.isHidden = false
         tableView.layer.cornerRadius = 12
         tableView.layer.masksToBounds = true
         return tableView
@@ -141,7 +141,8 @@ class WeatherHomeViewController: UIViewController {
         
         forecastTableView.snp.makeConstraints { make in
             make.top.equalTo(infoCollectionView.snp.bottom).offset(8)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-8)
         }
     }
     
@@ -168,6 +169,10 @@ class WeatherHomeViewController: UIViewController {
                     }
                 }
                 self.currentWeatherVM.fetchCurrentWeather(
+                    lat: location.coordinate.latitude,
+                    lon: location.coordinate.longitude
+                )
+                self.weatherForecastVM.fetchForecast(
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
@@ -200,10 +205,14 @@ class WeatherHomeViewController: UIViewController {
         weatherForecastVM.$forecast
             .receive(on: DispatchQueue.main)
             .sink { [weak self] forecast in
-                guard let self = self, let forecast = forecast else { return }
-                print("VM: \(forecast)")
-                self.forecastTableView.reloadData()
-                print("Reload OK")
+                guard let self = self else { return }
+                if let forecast = forecast {
+                    print("VM: \(forecast)")
+                    self.forecastTableView.isHidden = false
+                    self.forecastTableView.reloadData()
+                } else {
+                    self.forecastTableView.isHidden = true
+                }
             }
             .store(in: &cancellables)
     }
@@ -226,7 +235,88 @@ class WeatherHomeViewController: UIViewController {
         showNavigationLoading(true)
         hasLocation = false
         setNavgationBar()
+        forecastTableView.isHidden = true
         LocationManager.shared.requestLocation()
+    }
+    
+    
+    // MARK: - Data Models
+    
+    private struct ForecastGroup {
+        let date: String
+        let items: [ForecastItem]
+    }
+    
+    // MARK: - Date Formatting
+    
+    private enum DateFormat {
+        static let input = "yyyy-MM-dd HH:mm:ss"
+        static let display = "MM月dd日 EEEE"
+        static let time = "HH:mm"
+    }
+    
+    private lazy var inputDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormat.input
+        formatter.locale = Locale(identifier: "zh_TW")
+        return formatter
+    }()
+    
+    private lazy var displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormat.display
+        formatter.locale = Locale(identifier: "zh_TW")
+        return formatter
+    }()
+    
+    private lazy var timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormat.time
+        formatter.locale = Locale(identifier: "zh_TW")
+        return formatter
+    }()
+    
+    // MARK: - Data Processing
+    
+    private func getGroupedForecastData() -> [ForecastGroup] {
+        guard let forecast = weatherForecastVM.forecast else { return [] }
+        let groupedData = groupForecastByDate(forecast.list)
+        let sortedGroups = sortGroupsByDate(groupedData)
+        
+        return sortedGroups
+    }
+    
+    private func groupForecastByDate(_ items: [ForecastItem]) -> [String: [ForecastItem]] {
+        var groupedData: [String: [ForecastItem]] = [:]
+        
+        for item in items {
+            guard let date = inputDateFormatter.date(from: item.dt_txt) else { continue }
+            let dateKey = displayDateFormatter.string(from: date)
+            
+            if groupedData[dateKey] == nil {
+                groupedData[dateKey] = []
+            }
+            groupedData[dateKey]?.append(item)
+        }
+        
+        return groupedData
+    }
+    
+    private func sortGroupsByDate(_ groupedData: [String: [ForecastItem]]) -> [ForecastGroup] {
+        let sortedKeys = groupedData.keys.sorted { key1, key2 in
+            guard let date1 = displayDateFormatter.date(from: key1),
+                  let date2 = displayDateFormatter.date(from: key2) else { return false }
+            return date1 < date2
+        }
+        
+        return sortedKeys.map { key in
+            ForecastGroup(date: key, items: groupedData[key] ?? [])
+        }
+    }
+    
+    private func formatTime(from dateString: String) -> String {
+        guard let date = inputDateFormatter.date(from: dateString) else { return dateString }
+        return timeFormatter.string(from: date)
     }
 }
 
@@ -251,26 +341,35 @@ extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionVie
 
 extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return getGroupedForecastData().count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherForecastVM.forecast?.list.count ?? 0
+        let groupedData = getGroupedForecastData()
+        guard section < groupedData.count else { return 0 }
+        return groupedData[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "WeatherForecastTableViewCell",
             for: indexPath
-        ) as? WeatherForecastTableViewCell,
-              let item = weatherForecastVM.forecast?.list[indexPath.row] else {
+        ) as? WeatherForecastTableViewCell else {
             return UITableViewCell()
         }
-        let timeString = item.dt_txt
+        
+        let groupedData = getGroupedForecastData()
+        guard indexPath.section < groupedData.count,
+              indexPath.row < groupedData[indexPath.section].items.count else {
+            return UITableViewCell()
+        }
+        
+        let item = groupedData[indexPath.section].items[indexPath.row]
+        let timeString = formatTime(from: item.dt_txt)
         let tempString = String(format: "%.0f°", item.main.temp)
         let desc = item.weather.first?.description ?? "--"
         let iconName = item.weather.first?.icon ?? ""
-        let icon = UIImage(systemName: "cloud")
+        let icon = UIImage(systemName: weatherForecastVM.getSystemImageName(for: iconName))
         
         cell.configure(time: timeString, icon: icon, temp: tempString, desc: desc)
         return cell
@@ -278,10 +377,19 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let groupedData = getGroupedForecastData()
+        guard section < groupedData.count else { return nil }
+        
         let header = UIView()
+        let blurEffect = UIBlurEffect(style: .systemMaterial)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = header.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        header.addSubview(blurView)
+        
         let label = UILabel()
-        label.text = "未來預報"
-        label.font = .boldSystemFont(ofSize: 16)
+        label.text = groupedData[section].date
+        label.font = .bold(size: 16)
         label.textColor = .label
         header.addSubview(label)
         label.snp.makeConstraints { make in
@@ -292,6 +400,6 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 36
+        return 40
     }
 }
