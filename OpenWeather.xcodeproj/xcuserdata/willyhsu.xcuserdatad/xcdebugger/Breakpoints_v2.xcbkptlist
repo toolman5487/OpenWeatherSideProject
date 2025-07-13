@@ -14,9 +14,9 @@
             filePath = "Views/WeatherViews/WeatherHomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "bindingVM()"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "getGroupedForecastData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -25,5 +25,8 @@ class WeatherTableView: UITableView {
         separatorStyle = .singleLine
         showsVerticalScrollIndicator = false
         estimatedRowHeight = 60
+        alwaysBounceVertical = true
+        sectionHeaderTopPadding = 0
+        contentInsetAdjustmentBehavior = .automatic
     }
 }

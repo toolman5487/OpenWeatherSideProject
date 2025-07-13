@@ -22,80 +22,16 @@ class WeatherHomeViewController: UIViewController {
     private var currentWeatherVM = CurrentWeatherViewModel()
     private var weatherForecastVM = WeatherForecastViewModel()
     private var weatherInfoItems: [(title: String, value: String)] = []
+    private lazy var weatherHomeView = WeatherHomeView()
     
-    private let tempLabel: UILabel = {
-        let label = UILabel()
-        label.font = .bold(size: 72)
-        label.textColor = .label
-        label.textAlignment = .center
-        label.isHidden = false
-        label.layer.cornerRadius = 36
-        label.layer.masksToBounds = true
-        return label
-    }()
-    
-    private let weatherImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        image.tintColor = .label
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 28
-        image.layer.masksToBounds = true
-        return image
-    }()
-    
-    private let weatherDescLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .tertiaryLabel
-        label.textAlignment = .center
-        label.isHidden = true
-        label.layer.cornerRadius = 8
-        label.layer.masksToBounds = true
-        return label
-    }()
-    
-    private lazy var weatherStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [weatherImageView, weatherDescLabel])
-        stack.axis = .vertical
-        stack.spacing = 8
-        stack.alignment = .center
-        stack.layer.cornerRadius = 16
-        stack.layer.masksToBounds = true
-        return stack
-    }()
-    
-    private lazy var infoCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 12
-        layout.itemSize = CGSize(width: 72, height: 72)
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.backgroundColor = .clear
-        collection.showsHorizontalScrollIndicator = false
-        collection.dataSource = self
-        collection.delegate = self
-        collection.register(WeatherInfoCell.self, forCellWithReuseIdentifier: "WeatherInfoCell")
-        collection.layer.cornerRadius = 16
-        collection.layer.masksToBounds = true
-        return collection
-    }()
-    
-    private lazy var forecastTableView: WeatherTableView = {
-        let tableView = WeatherTableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(WeatherForecastTableViewCell.self, forCellReuseIdentifier: "WeatherForecastTableViewCell")
-        tableView.isHidden = false
-        tableView.layer.cornerRadius = 12
-        tableView.layer.masksToBounds = true
-        return tableView
-    }()
+    override func loadView() {
+        view = weatherHomeView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavgationBar()
-        setupUI()
+        setupDelegates()
         bindingVM()
     }
     
@@ -114,36 +50,14 @@ class WeatherHomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = button
     }
     
-    private func setupUI() {
-        view.addSubview(tempLabel)
-        view.addSubview(weatherStackView)
-        view.addSubview(infoCollectionView)
-        view.addSubview(forecastTableView)
+    private func setupDelegates() {
+        weatherHomeView.infoCollectionView.dataSource = self
+        weatherHomeView.infoCollectionView.delegate = self
+        weatherHomeView.infoCollectionView.register(WeatherInfoCell.self, forCellWithReuseIdentifier: "WeatherInfoCell")
         
-        tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
-            make.centerX.equalToSuperview()
-        }
-        
-        weatherStackView.snp.makeConstraints { make in
-            make.top.equalTo(tempLabel.snp.bottom).offset(8)
-            make.centerX.equalToSuperview()
-        }
-        weatherImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(56)
-        }
-        
-        infoCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(weatherStackView.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(72)
-        }
-        
-        forecastTableView.snp.makeConstraints { make in
-            make.top.equalTo(infoCollectionView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(8)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-8)
-        }
+        weatherHomeView.forecastTableView.dataSource = self
+        weatherHomeView.forecastTableView.delegate = self
+        weatherHomeView.forecastTableView.register(WeatherForecastTableViewCell.self, forCellReuseIdentifier: "WeatherForecastTableViewCell")
     }
     
     private func bindingVM() {
@@ -183,11 +97,11 @@ class WeatherHomeViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] weather in
                 guard let self = self, let weather = weather else { return }
-                self.tempLabel.text = String(format: "%.0f°", weather.main.temp)
-                self.tempLabel.isHidden = false
-                self.weatherDescLabel.text = weather.weather.first?.description ?? "--"
-                self.weatherDescLabel.isHidden = false
-                self.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
+                self.weatherHomeView.tempLabel.text = String(format: "%.0f°", weather.main.temp)
+                self.weatherHomeView.tempLabel.isHidden = false
+                self.weatherHomeView.weatherDescLabel.text = weather.weather.first?.description ?? "--"
+                self.weatherHomeView.weatherDescLabel.isHidden = false
+                self.weatherHomeView.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
                 
                 self.weatherInfoItems = [
                     (title: "最低", value: String(format: "%.0f°", weather.main.temp_min)),
@@ -198,7 +112,7 @@ class WeatherHomeViewController: UIViewController {
                     (title: "海平面", value: weather.main.sea_level != nil ? "\(weather.main.sea_level!) hPa" : "--"),
                     (title: "地面", value: weather.main.grnd_level != nil ? "\(weather.main.grnd_level!) hPa" : "--")
                 ]
-                self.infoCollectionView.reloadData()
+                self.weatherHomeView.infoCollectionView.reloadData()
             }
             .store(in: &cancellables)
         
@@ -208,10 +122,10 @@ class WeatherHomeViewController: UIViewController {
                 guard let self = self else { return }
                 if let forecast = forecast {
                     print("VM: \(forecast)")
-                    self.forecastTableView.isHidden = false
-                    self.forecastTableView.reloadData()
+                    self.weatherHomeView.forecastTableView.isHidden = false
+                    self.weatherHomeView.forecastTableView.reloadData()
                 } else {
-                    self.forecastTableView.isHidden = true
+                    self.weatherHomeView.forecastTableView.isHidden = true
                 }
             }
             .store(in: &cancellables)
@@ -235,19 +149,14 @@ class WeatherHomeViewController: UIViewController {
         showNavigationLoading(true)
         hasLocation = false
         setNavgationBar()
-        forecastTableView.isHidden = true
+        weatherHomeView.forecastTableView.isHidden = true
         LocationManager.shared.requestLocation()
     }
-    
-    
-    // MARK: - Data Models
     
     private struct ForecastGroup {
         let date: String
         let items: [ForecastItem]
     }
-    
-    // MARK: - Date Formatting
     
     private enum DateFormat {
         static let input = "yyyy-MM-dd HH:mm:ss"
@@ -275,8 +184,6 @@ class WeatherHomeViewController: UIViewController {
         formatter.locale = Locale(identifier: "zh_TW")
         return formatter
     }()
-    
-    // MARK: - Data Processing
     
     private func getGroupedForecastData() -> [ForecastGroup] {
         guard let forecast = weatherForecastVM.forecast else { return [] }
@@ -381,11 +288,14 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
         guard section < groupedData.count else { return nil }
         
         let header = UIView()
+        header.backgroundColor = .clear
+        
         let blurEffect = UIBlurEffect(style: .systemMaterial)
         let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = header.bounds
-        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         header.addSubview(blurView)
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         let label = UILabel()
         label.text = groupedData[section].date
@@ -401,5 +311,25 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let groupedData = getGroupedForecastData()
+        // 為最後一個 section 添加足夠的底部空間，確保 header 能夠黏附到頂部
+        if section == groupedData.count - 1 {
+            let footerView = UIView()
+            footerView.backgroundColor = .clear
+            return footerView
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let groupedData = getGroupedForecastData()
+        // 為最後一個 section 添加足夠的底部空間
+        if section == groupedData.count - 1 {
+            return max(200, tableView.frame.height * 0.3)
+        }
+        return 0
     }
 }
