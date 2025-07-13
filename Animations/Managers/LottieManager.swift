@@ -7,6 +7,7 @@
 
 import Lottie
 import UIKit
+import SnapKit
 
 final class LottieManager {
     static func makeLoadingView(named name: String) -> LottieAnimationView {
@@ -15,9 +16,11 @@ final class LottieManager {
         view.loopMode = .loop
         view.contentMode = .scaleAspectFit
         view.backgroundBehavior = .pauseAndRestore
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        view.snp.makeConstraints { make in
+            make.width.height.equalTo(120)
+        }
+        
         return view
     }
 }

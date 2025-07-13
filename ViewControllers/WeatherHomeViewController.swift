@@ -315,7 +315,6 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let groupedData = getGroupedForecastData()
-        // 為最後一個 section 添加足夠的底部空間，確保 header 能夠黏附到頂部
         if section == groupedData.count - 1 {
             let footerView = UIView()
             footerView.backgroundColor = .clear
@@ -326,9 +325,8 @@ extension WeatherHomeViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let groupedData = getGroupedForecastData()
-        // 為最後一個 section 添加足夠的底部空間
         if section == groupedData.count - 1 {
-            return max(200, tableView.frame.height * 0.3)
+            return max(40, tableView.frame.height * 0.1)
         }
         return 0
     }

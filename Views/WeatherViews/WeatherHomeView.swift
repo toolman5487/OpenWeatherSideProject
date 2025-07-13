@@ -90,7 +90,7 @@ class WeatherHomeView: UIView {
         addSubview(forecastTableView)
         
         tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(0)
             make.centerX.equalToSuperview()
         }
         
