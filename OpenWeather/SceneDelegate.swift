@@ -14,15 +14,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeGradientImage(height: CGFloat) -> UIImage {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
+            UIColor(hex: "#03045e").cgColor,
+            UIColor(hex: "#023e8a").cgColor,
+            UIColor(hex: "#0077b6").cgColor,
+            UIColor(hex: "#0096c7").cgColor,
+            UIColor(hex: "#00b4d8").cgColor,
+            UIColor(hex: "#48cae4").cgColor,
+            UIColor(hex: "#90e0ef").cgColor,
+            UIColor(hex: "#ade8f4").cgColor,
+            UIColor(hex: "#caf0f8").cgColor,
             UIColor.systemBackground.cgColor,
-            UIColor(red: 0xCA/255, green: 0xF0/255, blue: 0xF8/255, alpha: 1).cgColor,
-            UIColor(red: 0x90/255, green: 0xE0/255, blue: 0xEF/255, alpha: 1).cgColor,
-            UIColor(red: 0x00/255, green: 0xB4/255, blue: 0xD8/255, alpha: 1).cgColor,
-            UIColor(red: 0x00/255, green: 0x77/255, blue: 0xB6/255, alpha: 1).cgColor,
-            UIColor(red: 0x03/255, green: 0x04/255, blue: 0x5E/255, alpha: 1).cgColor
         ]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 1)
-        gradientLayer.endPoint   = CGPoint(x: 0, y: 0)
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint   = CGPoint(x: 0, y: 1)
         gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: height)
         let renderer = UIGraphicsImageRenderer(size: gradientLayer.frame.size)
         return renderer.image { ctx in

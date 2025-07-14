@@ -24,15 +24,19 @@ class WeatherHomeViewController: UIViewController {
     private var weatherInfoItems: [(title: String, value: String)] = []
     private lazy var weatherHomeView = WeatherHomeView()
     
-    override func loadView() {
-        view = weatherHomeView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupWeatherHomeView()
         setNavgationBar()
         setupDelegates()
         bindingVM()
+    }
+    
+    private func setupWeatherHomeView() {
+        view.addSubview(weatherHomeView)
+        weatherHomeView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     private func setNavgationBar() {
@@ -121,7 +125,6 @@ class WeatherHomeViewController: UIViewController {
             .sink { [weak self] forecast in
                 guard let self = self else { return }
                 if let forecast = forecast {
-                    print("VM: \(forecast)")
                     self.weatherHomeView.forecastTableView.isHidden = false
                     self.weatherHomeView.forecastTableView.reloadData()
                 } else {

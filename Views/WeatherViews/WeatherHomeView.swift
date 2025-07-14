@@ -103,7 +103,7 @@ class WeatherHomeView: UIView {
         }
         
         infoCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(weatherStackView.snp.bottom).offset(16)
+            make.top.equalTo(weatherStackView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(72)
         }
