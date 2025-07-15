@@ -48,10 +48,19 @@ class WeatherInfoCell: UICollectionViewCell {
         return stack
     }()
     
+    // 毛玻璃效果背景
+    private let blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.layer.cornerRadius = 16
+        blurView.layer.masksToBounds = true
+        blurView.alpha = 0.5
+        return blurView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemGroupedBackground
-        contentView.isSkeletonable = true
+        setupBlurEffect()
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = true
         stack.addArrangedSubview(titleLabel)
@@ -59,6 +68,14 @@ class WeatherInfoCell: UICollectionViewCell {
         contentView.addSubview(stack)
         stack.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(4)
+        }
+    }
+    
+    private func setupBlurEffect() {
+        contentView.backgroundColor = .clear
+        contentView.addSubview(blurEffectView)
+        blurEffectView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

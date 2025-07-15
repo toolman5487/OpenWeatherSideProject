@@ -22,8 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             UIColor(hex: "#48cae4").cgColor,
             UIColor(hex: "#90e0ef").cgColor,
             UIColor(hex: "#ade8f4").cgColor,
-            UIColor(hex: "#caf0f8").cgColor,
-            UIColor.systemBackground.cgColor,
+            UIColor.systemBackground.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint   = CGPoint(x: 0, y: 1)
