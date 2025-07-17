@@ -37,9 +37,6 @@ class WeatherHomeView: UIView {
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = .tertiaryLabel
         label.textAlignment = .center
-        label.isHidden = true
-        label.layer.cornerRadius = 8
-        label.layer.masksToBounds = true
         return label
     }()
     
@@ -48,8 +45,6 @@ class WeatherHomeView: UIView {
         stack.axis = .vertical
         stack.spacing = 8
         stack.alignment = .center
-        stack.layer.cornerRadius = 16
-        stack.layer.masksToBounds = true
         return stack
     }()
     
@@ -60,9 +55,7 @@ class WeatherHomeView: UIView {
         layout.itemSize = CGSize(width: 72, height: 72)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .clear
-        collection.showsHorizontalScrollIndicator = false
-        collection.layer.cornerRadius = 16
-        collection.layer.masksToBounds = true
+        collection.showsHorizontalScrollIndicator = true
         return collection
     }()
     
@@ -111,7 +104,7 @@ class WeatherHomeView: UIView {
         forecastTableView.snp.makeConstraints { make in
             make.top.equalTo(infoCollectionView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(8)
-            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(0)
+            make.bottom.equalToSuperview()
         }
     }
 } 

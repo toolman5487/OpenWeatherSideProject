@@ -48,7 +48,6 @@ class WeatherInfoCell: UICollectionViewCell {
         return stack
     }()
     
-    // 毛玻璃效果背景
     private let blurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .systemThinMaterial)
         let blurView = UIVisualEffectView(effect: blurEffect)

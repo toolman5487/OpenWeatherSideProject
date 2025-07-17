@@ -13,6 +13,7 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
+        setupBlurEffect()
     }
     
     private func setupTabBar() {
@@ -30,5 +31,21 @@ class MainTabBarController: UITabBarController {
         viewControllers = [
             weatherNav, homeNav
         ]
+    }
+    
+    private func setupBlurEffect() {
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+
+        blurEffectView.frame = tabBar.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
+        tabBar.backgroundColor = UIColor.clear
+        tabBar.isTranslucent = true
+        
+        tabBar.insertSubview(blurEffectView, at: 0)
+        tabBar.tintColor = .systemBlue
+        tabBar.unselectedItemTintColor = .secondaryLabel
     }
 }
