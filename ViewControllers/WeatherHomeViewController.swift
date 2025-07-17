@@ -97,33 +97,30 @@ class WeatherHomeViewController: UIViewController {
             }
             .store(in: &cancellables)
         
-        currentWeatherVM.$weather
+        Publishers.CombineLatest(currentWeatherVM.$weather, weatherForecastVM.$forecast)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] weather in
-                guard let self = self, let weather = weather else { return }
-                self.weatherHomeView.tempLabel.text = String(format: "%.0f°", weather.main.temp)
-                self.weatherHomeView.tempLabel.isHidden = false
-                self.weatherHomeView.weatherDescLabel.text = weather.weather.first?.description ?? "--"
-                self.weatherHomeView.weatherDescLabel.isHidden = false
-                self.weatherHomeView.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
-                
-                self.weatherInfoItems = [
-                    (title: "最低", value: String(format: "%.0f°", weather.main.temp_min)),
-                    (title: "最高", value: String(format: "%.0f°", weather.main.temp_max)),
-                    (title: "體感", value: String(format: "%.0f°", weather.main.feels_like)),
-                    (title: "濕度", value: "\(weather.main.humidity)%"),
-                    (title: "氣壓", value: "\(weather.main.pressure) hPa"),
-                    (title: "海平面", value: weather.main.sea_level != nil ? "\(weather.main.sea_level!) hPa" : "--"),
-                    (title: "地面", value: weather.main.grnd_level != nil ? "\(weather.main.grnd_level!) hPa" : "--")
-                ]
-                self.weatherHomeView.infoCollectionView.reloadData()
-            }
-            .store(in: &cancellables)
-        
-        weatherForecastVM.$forecast
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] forecast in
+            .sink { [weak self] (weather, forecast) in
                 guard let self = self else { return }
+                
+                if let weather = weather {
+                    self.weatherHomeView.tempLabel.text = String(format: "%.0f°", weather.main.temp)
+                    self.weatherHomeView.tempLabel.isHidden = false
+                    self.weatherHomeView.weatherDescLabel.text = weather.weather.first?.description ?? "--"
+                    self.weatherHomeView.weatherDescLabel.isHidden = false
+                    self.weatherHomeView.weatherImageView.image = UIImage(systemName: self.currentWeatherVM.systemImageName)
+                    
+                    self.weatherInfoItems = [
+                        (title: "最低", value: String(format: "%.0f°", weather.main.temp_min)),
+                        (title: "最高", value: String(format: "%.0f°", weather.main.temp_max)),
+                        (title: "體感", value: String(format: "%.0f°", weather.main.feels_like)),
+                        (title: "濕度", value: "\(weather.main.humidity)%"),
+                        (title: "氣壓", value: "\(weather.main.pressure) hPa"),
+                        (title: "海平面", value: weather.main.sea_level != nil ? "\(weather.main.sea_level!) hPa" : "--"),
+                        (title: "地面", value: weather.main.grnd_level != nil ? "\(weather.main.grnd_level!) hPa" : "--")
+                    ]
+                    self.weatherHomeView.infoCollectionView.reloadData()
+                }
+                
                 if let forecast = forecast {
                     self.weatherHomeView.forecastTableView.isHidden = false
                     self.weatherHomeView.forecastTableView.reloadData()
@@ -132,6 +129,7 @@ class WeatherHomeViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
+        
     }
     
     private func showNavigationLoading(_ show: Bool) {

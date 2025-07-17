@@ -61,9 +61,6 @@ class WeatherHomeView: UIView {
     
     lazy var forecastTableView: WeatherTableView = {
         let tableView = WeatherTableView(frame: .zero, style: .plain)
-        tableView.isHidden = false
-        tableView.layer.cornerRadius = 12
-        tableView.layer.masksToBounds = true
         return tableView
     }()
     
@@ -103,7 +100,7 @@ class WeatherHomeView: UIView {
         
         forecastTableView.snp.makeConstraints { make in
             make.top.equalTo(infoCollectionView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(8)
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }
