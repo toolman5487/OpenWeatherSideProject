@@ -121,12 +121,12 @@ class WeatherHomeViewController: UIViewController {
                     self.weatherHomeView.infoCollectionView.reloadData()
                 }
                 
-                if let forecast = forecast {
-                    self.weatherHomeView.forecastTableView.isHidden = false
-                    self.weatherHomeView.forecastTableView.reloadData()
-                } else {
-                    self.weatherHomeView.forecastTableView.isHidden = true
+                guard let forecast = forecast else {
+                    weatherHomeView.forecastTableView.isHidden = true
+                    return
                 }
+                weatherHomeView.forecastTableView.isHidden = false
+                weatherHomeView.forecastTableView.reloadData()
             }
             .store(in: &cancellables)
         
@@ -230,7 +230,7 @@ class WeatherHomeViewController: UIViewController {
 
 extension WeatherHomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return weatherInfoItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
