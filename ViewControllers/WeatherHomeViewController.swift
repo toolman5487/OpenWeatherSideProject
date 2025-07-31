@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import CoreLocation
 import Combine
+import CombineCocoa
 import Lottie
 
 
@@ -24,12 +25,91 @@ class WeatherHomeViewController: UIViewController {
     private var weatherInfoItems: [(title: String, value: String)] = []
     private lazy var weatherHomeView = WeatherHomeView()
     
+    // 搜尋相關屬性
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        
+        // 基本設定
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        // 背景顏色設定
+        searchController.view.backgroundColor = .systemBackground
+        searchController.searchBar.backgroundColor = .systemBackground
+        searchController.searchBar.barTintColor = .systemBackground
+        
+        // 搜尋欄設定
+        searchController.searchBar.placeholder = "搜尋城市..."
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.tintColor = .systemBlue
+        
+        // 搜尋欄外觀
+        searchController.searchBar.layer.cornerRadius = 10
+        searchController.searchBar.clipsToBounds = true
+        
+        // 按鈕文字
+        searchController.searchBar.setShowsCancelButton(true, animated: false)
+        searchController.searchBar.showsCancelButton = true
+        
+        // 鍵盤設定
+        searchController.searchBar.keyboardType = .default
+        searchController.searchBar.returnKeyType = .search
+        searchController.searchBar.enablesReturnKeyAutomatically = true
+        
+        return searchController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupWeatherHomeView()
         setNavgationBar()
         setupDelegates()
+        setupSearchBinding()
         bindingVM()
+    }
+    
+    private func setupSearchBinding() {
+        // 使用 CombineCocoa 處理搜尋文字變化
+        searchController.searchBar.textDidChangePublisher
+            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] searchText in
+                guard let self = self else { return }
+                self.handleSearchText(searchText)
+            }
+            .store(in: &cancellables)
+        
+        // 處理搜尋取消
+        searchController.searchBar.cancelButtonClickedPublisher
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.handleSearchCancel()
+            }
+            .store(in: &cancellables)
+        
+        // 處理搜尋開始
+        searchController.searchBar.searchButtonClickedPublisher
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.handleSearchButtonClicked()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func handleSearchText(_ searchText: String) {
+        print("搜尋文字: \(searchText)")
+        // 這裡可以實現搜尋邏輯
+    }
+    
+    private func handleSearchCancel() {
+        print("搜尋已取消")
+        // 重置搜尋狀態
+    }
+    
+    private func handleSearchButtonClicked() {
+        print("搜尋按鈕被點擊")
+        // 執行搜尋
     }
     
     private func setupWeatherHomeView() {
@@ -43,15 +123,27 @@ class WeatherHomeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
+        // 創建位置按鈕
         let systemName = hasLocation ? "location.fill" : "location"
-        let button = UIBarButtonItem(
+        let locationButton = UIBarButtonItem(
             image: UIImage(systemName: systemName),
             style: .plain,
             target: self,
             action: #selector(locationButtonTapped)
         )
-        button.tintColor = .label
-        navigationItem.rightBarButtonItem = button
+        locationButton.tintColor = .label
+        
+        // 創建搜尋按鈕
+        let searchButton = UIBarButtonItem(
+            image: UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
+            style: .plain,
+            target: self,
+            action: #selector(searchButtonTapped)
+        )
+        searchButton.tintColor = .label
+        
+        // 設置右側按鈕（搜尋按鈕在左邊，位置按鈕在右邊）
+        navigationItem.rightBarButtonItems = [locationButton, searchButton]
     }
     
     private func setupDelegates() {
@@ -77,12 +169,12 @@ class WeatherHomeViewController: UIViewController {
                 self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
                     DispatchQueue.main.async {
                         self.showNavigationLoading(false)
-                        if let name = placemarks?.first?.locality {
-                            self.title = name
+                        if let placemark = placemarks?.first {
+                            let detailedLocation = self.formatDetailedLocation(from: placemark)
+                            self.title = detailedLocation
                         } else {
                             self.hasLocation = false
                             self.setNavgationBar()
-                            self.title = "定位中..."
                         }
                     }
                 }
@@ -152,6 +244,11 @@ class WeatherHomeViewController: UIViewController {
         setNavgationBar()
         weatherHomeView.forecastTableView.isHidden = true
         LocationManager.shared.requestLocation()
+    }
+    
+    @objc private func searchButtonTapped() {
+        // 顯示搜尋控制器
+        present(searchController, animated: true)
     }
     
     private struct ForecastGroup {
@@ -225,6 +322,16 @@ class WeatherHomeViewController: UIViewController {
     private func formatTime(from dateString: String) -> String {
         guard let date = inputDateFormatter.date(from: dateString) else { return dateString }
         return timeFormatter.string(from: date)
+    }
+    
+    private func formatDetailedLocation(from placemark: CLPlacemark) -> String {
+        // 只顯示城市（如：臺北市）
+        if let administrativeArea = placemark.administrativeArea {
+            return administrativeArea
+        }
+        
+        // 如果沒有城市資訊，顯示當前位置
+        return "當前位置"
     }
 }
 

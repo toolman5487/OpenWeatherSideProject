@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		151100B62E3BB46F0039A74D /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 151100B52E3BB46F0039A74D /* CombineCocoa */; };
 		1573DBB22E19506C00E54B68 /* WeatherTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1573DBB12E19506C00E54B68 /* WeatherTableView.swift */; };
 		1573DBB42E1990DE00E54B68 /* WeatherForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1573DBB32E1990DE00E54B68 /* WeatherForecastTableViewCell.swift */; };
 		1573DBB62E23A1B400E54B68 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1573DBB52E23A1B400E54B68 /* WeatherHomeView.swift */; };
@@ -98,6 +99,7 @@
 				15FDA0B22E0EE31D00307357 /* SnapKit in Frameworks */,
 				15E0E1F52E1130A200C57C10 /* SkeletonView in Frameworks */,
 				15E0E1F82E117BB700C57C10 /* SDWebImage in Frameworks */,
+				151100B62E3BB46F0039A74D /* CombineCocoa in Frameworks */,
 				15E0E1DA2E1104BD00C57C10 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +309,7 @@
 				15E0E1D92E1104BD00C57C10 /* Lottie */,
 				15E0E1F42E1130A200C57C10 /* SkeletonView */,
 				15E0E1F72E117BB700C57C10 /* SDWebImage */,
+				151100B52E3BB46F0039A74D /* CombineCocoa */,
 			);
 			productName = OpenWeather;
 			productReference = 15FDA0912E0EE07200307357 /* OpenWeather.app */;
@@ -341,6 +344,7 @@
 				15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				15E0E1F32E1130A200C57C10 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				15E0E1F62E117BB700C57C10 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				151100B42E3BB46F0039A74D /* XCRemoteSwiftPackageReference "CombineCocoa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 15FDA0922E0EE07200307357 /* Products */;
@@ -602,6 +606,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		151100B42E3BB46F0039A74D /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
 		15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -637,6 +649,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		151100B52E3BB46F0039A74D /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 151100B42E3BB46F0039A74D /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
 		15E0E1D92E1104BD00C57C10 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 15E0E1D82E1104BD00C57C10 /* XCRemoteSwiftPackageReference "lottie-ios" */;

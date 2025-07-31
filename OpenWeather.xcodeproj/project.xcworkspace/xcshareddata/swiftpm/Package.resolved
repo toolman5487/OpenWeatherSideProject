@@ -1,6 +1,15 @@
 {
-  "originHash" : "2afd5f7c5b9e19c2a9814a1278db6154916d263c1b8cfa1f9a825080f761696a",
+  "originHash" : "518a666b4f362aedbe152b4076a65e04a84555c619e676b8e5c0c10568b9c7c5",
   "pins" : [
+    {
+      "identity" : "combinecocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CombineCommunity/CombineCocoa",
+      "state" : {
+        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56",
+        "version" : "0.4.1"
+      }
+    },
     {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",

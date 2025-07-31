@@ -78,9 +78,9 @@ class MyHomeViewController: UIViewController {
         // 設置地圖
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(200)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(0)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(mapView.snp.width).multipliedBy(0.5)
         }
         
         // 設置位置容器
